@@ -1,0 +1,42 @@
+
+        services:
+          mysql:
+            image: mysql:8.0
+            container_name: mysql
+            environment:
+              MYSQL_ROOT_PASSWORD: Shundu1234
+              MYSQL_DATABASE: bofadb
+              MYSQL_USER: root
+              MYSQL_PASSWORD: Shundu1234
+            ports:
+              - "3307:3306"
+            networks:
+              - acct_custom_network
+            volumes:
+              - mysql-data:/var/lib/mysql
+
+
+          springboot:
+            build: .
+            container_name: springboot-app
+            environment:
+              SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bofadb
+              SPRING_DATASOURCE_USERNAME: root
+              SPRING_DATASOURCE_PASSWORD: Shundu1234
+            ports:
+              - "8093:8080"
+            depends_on:
+              - mysql
+            command: ["./wait-for-it.sh", "mysql:3306", "--", "java", "-jar", "app.jar"]
+            networks:
+              - acct_custom_network
+
+        networks:
+          acct_custom_network:
+              driver: bridge
+
+        volumes:
+            mysql-data:
+              driver: local
+
+

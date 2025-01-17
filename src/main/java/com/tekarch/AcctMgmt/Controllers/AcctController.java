@@ -28,11 +28,19 @@ public class AcctController {
     }
 
     //Retrieving single account with AccountID
-    @GetMapping("/account/{accountId}")
+    @GetMapping("/account/accountid/{accountId}")
     public Accounts getAccountDetails(@PathVariable("accountId")  Long accountId)
     {
         return accountServiceImpl.getAccountDetails(accountId);
     }
+
+    //testing
+    @GetMapping("/accountdesc")
+    public void accountdesc(){
+        System.out.println("This is Account microservice");
+    }
+
+
 
     //get balance of user using userID and ac
     @GetMapping("/account/{userId}/{accountId}")
